@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Using map and filter to create dynamic table-rows</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            table, th, td {
+                border: 1px solid black
+            }
+        </style>
+    </head>
+
+    <body onload="fetchAllCars1()"> 
+
+
+        <p id='carList'></p>
+        <form id='priceFilter'>
+            <input type="number" id="yearNumber" name="typeNumber">
+            <input type="submit" id="number2" value="Year less than">
+            <br>
+            <input type="text" id="maker2" name="Maker">
+            <input type="submit" id="make" value="Maker">
+            <br>
+            <input type="text" id="model2" name="Model">
+            <input type="submit" id="model" value="Model">
+            <br>
+            <input type="text" id="owner2" name="Owner">
+            <input type="submit" id="owner" value="Owner">
+            <br>
+            <input type="number" id="typeNumber" name="typeNumber">
+            <input type="submit" id="number" value="Price less than">
+            <br>
+            <input type="submit" id="sortYear" value="Sort Year">
+            <br>
+            <input type="submit" id="sortPrice" value="Sort Price">
+
+
+
+
+        </form>
+
+
+        <h4><a href="https://test.madebay.dk/CA1">Gå tilbage til forsiden</a></h4>
+
+
+        <script>
+            //       For lokal testing
+            //       var cars = [
+            //           {id: 1, year: 1997, maker: 'Ford', model: 'E350', owner: 'Jonas', price: 39000},
+            //           {id: 2, year: 1999, maker: 'Chevy', model: 'Venture', owner: 'Casper', price: 45500},
+            //           {id: 3, year: 2000, maker: 'Chevy', model: 'Camaro', owner: 'Jacob', price: 50000},
+            //           {id: 4, year: 1996, maker: 'Jeep', model: 'Grand Cherokee', owner: 'Casper', price: 47990},
+            //           {id: 5, year: 2005, maker: 'Volvo', model: 'V70', owner: 'Jacob', price: 44790},
+            //           {id: 6, year: 1998, maker: 'Porsche', model: '911', owner: 'Jonas', price: 99999},
+            //           {id: 7, year: 2003, maker: 'Porsche', model: 'GT1', owner: 'Casper', price: 100995},
+            //           {id: 8, year: 2010, maker: 'Jaguar', model: 'E-pace', owner: 'Jacob', price: 69420},
+            //           {id: 9, year: 1990, maker: 'Ferrari', model: '488 Pista', owner: 'Jonas', price: 133769},
+            //           {id: 10, year: 2007, maker: 'Mercedes', model: 'GLA SUV', owner: 'Jacob', price: 75900}
+            //       ];
+
+            function listHTML(array) {
+                array2 = array.map(function (car) {
+                    return '<tr><td>' + car.id + '</td><td>' + car.year + '</td><td>' + car.make + '</td><td>' + car.model + '</td><td>' + car.owner + '</td><td>' + car.price + '</td></tr>';
+                });
+
+                array2.push('</table>');
+                array2.unshift('<table><tr><th>Id</th><th>Year</th><th>Maker</th><th>Model</th><th>Owner</th><th>Price</th></tr>');
+                array3 = array2.join('');
+
+                document.getElementById("carList").innerHTML = array3;
+            }
+
+            //    listHTML(cars);
+
+
+            function fetchAllCars1() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+                            listHTML(data);
+                            console.log(data);
+                        });
+            }
+            ;
+
+
+
+            let number2 = document.getElementById("number2");
+            number2.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars2();
+            });
+
+
+            function fetchAllCars2() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+                            let number2 = document.getElementById("yearNumber").value;
+                            let carsFiltered = data.filter(function (car) {
+                                return car.year < number2;
+                            });
+
+                            listHTML(carsFiltered);
+
+                        });
+
+
+            }
+            ;
+
+
+            let model = document.getElementById("model");
+            model.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars3();
+
+            });
+
+            function fetchAllCars3() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+                            let model = document.getElementById("model2").value;
+                            let carsFiltered = data.filter(function (car) {
+                                return car.model === model;
+                            });
+                            listHTML(carsFiltered);
+                        });
+
+
+
+
+            }
+            ;
+
+
+            let make = document.getElementById("make");
+            make.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars4();
+
+            });
+
+            function fetchAllCars4() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+
+                            let make = document.getElementById("maker2").value;
+                            let carsFiltered = data.filter(function (car) {
+                                return car.make === make;
+                            });
+                            listHTML(carsFiltered);
+                        });
+
+
+
+            }
+            ;
+
+
+            let owner = document.getElementById("owner");
+            owner.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars5();
+            });
+
+
+            function fetchAllCars5() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+                            let owner = document.getElementById("owner2").value;
+                            let carsFiltered = data.filter(function (car) {
+                                return car.owner === owner;
+                            });
+                            listHTML(carsFiltered);
+                        });
+
+
+            }
+            ;
+
+
+
+            let number = document.getElementById("number");
+            number.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars6();
+
+            });
+
+
+
+            function fetchAllCars6() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+                            let number = document.getElementById("typeNumber").value;
+                            let carsFiltered = data.filter(function (car) {
+                                return car.price < number;
+                            });
+                            listHTML(carsFiltered);
+                        });
+
+
+            }
+            ;
+
+
+            function fetchAllCars7() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+
+                            data.sort((a, b) => {
+                                if (a.year !== b.year)
+                                    return a.year - b.year;
+                            });
+                            listHTML(data);
+                            console.log(data);
+
+                        });
+            }
+            ;
+
+
+            let sortYear = document.getElementById("sortYear");
+            sortYear.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars8();
+
+
+            });
+
+            function fetchAllCars8() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+                            let sortYear = document.getElementById("sortYear").value;
+                            let carsFiltered = data.sort((a, b) => {
+                                if (a.year !== b.year)
+                                    return a.year - b.year;
+                            });
+                            listHTML(carsFiltered);
+                        });
+
+
+
+            }
+            ;
+
+
+            function fetchAllCars9() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+
+                            data.sort((a, b) => {
+                                if (a.price !== b.price)
+                                    return a.price - b.price;
+                            });
+                            listHTML(data);
+                            console.log(data);
+                        });
+            }
+            ;
+
+            let sortPrice = document.getElementById("sortPrice");
+            sortPrice.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllCars10();
+
+            });
+
+
+            function fetchAllCars10() {
+                let url = 'https://test.madebay.dk/CA1/api/cars/all';
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(data => {
+
+
+
+                            let sortPrice = document.getElementById("sortPrice").value;
+                            let carsFiltered = data.sort((a, b) => {
+                                if (a.price !== b.price)
+                                    return a.price - b.price;
+                            });
+                            listHTML(carsFiltered);
+                        });
+
+
+            }
+            ;
+
+
+        </script>
+    </body>
+</html>

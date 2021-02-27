@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+@Casper
+-->
+<html>
+    </head>
+    <body>
+        
+        
+  
+        <div  class="container">
+           
+            <div class="container">
+            <div class="row">
+                <div class="container">
+ 
+                </div>
+                <div class="container">
+                    <br>
+                    <h1 style="text-align: left">Plain DOM Manipulation Page</h1>
+                    <br>
+                    
+ 
+                   <div style="text-align: left">
+            <form onsubmit="mySubmitFunctionboy(event)" id="myForm" action="#">
+                <input type="text" name="fname" value="" placeholder="add boy">
+                <input value="Submit" type="submit">
+            </form>
+                       
+            <form onsubmit="mySubmitFunctiongirl(event)" id="myForm" action="#">
+                <input type="text" name="fname" value="" placeholder="add girl">
+                <input value="Submit" type="submit">
+            </form>
+            <button onclick="removeboybtn(event)">Remove boy</button>
+            <button onclick="removegirlbtn(event)">Remove girl</button>
+            
+            <div style="text-align: left">
+                <input type="checkbox" id="firstcheck"  >Remove first
+            </div>
+            <div style="text-align: left">
+                <input type="checkbox" id="lastcheck">Remove last
+            </div>
+ 
+              <button onclick="allreversed(event)">Reverse All</button>
+              <button onclick="allsorted(event)">Sort All</button>
+              <div style="text-align: left">
+              <br>
+              <table class="table table-hover">
+                  <tr>
+                      <th>Boys</th>
+                      <th>Girls</th>
+                      <th>All</th>
+                  </tr>
+                  <tr>
+                      <td id="boys-table"></td>
+                      <td id="girls-table"></td>
+                      <td id="all-table"></td>
+                  </tr>
+              </table>
+              
+              </div>
+        </div>
+              
+             
+       </div>
+                <script>
+                         console.log("HTML boys array");
+            let boys = ["Peter", "Lars", "Ole"];
+            var html = boys.join('</li><li>');
+            console.log(html);
+            var htmlArray = ['<ul><li>', html, '</li><ul>'];
+            console.log(htmlArray);
+            htmlArray = htmlArray.join('');
+            console.log(htmlArray);
+ 
+            document.getElementById('boys-table').innerHTML = htmlArray;
+            //document.getElementById('li-table').innerHTML += htmlArray;
+            
+          
+ 
+            var mySubmitFunctionboy = function (event) {
+                event.preventDefault();
+                console.log(event);
+                console.log(event.target);
+                console.log(event.target[0].value);
+                let name = event.target[0].value;
+                boys = [...boys, name];
+                let customArray = boys;
+                customArray = customArray.join('</li><li>');
+                customArray = ['<ul><li>', customArray, '</li><ul>'];
+                customArray = customArray.join('');
+                document.getElementById('boys-table').innerHTML = customArray;
+                updateall()
+            };
+            
+            console.log("HTML boys array");
+            let girls = ["Janne", "Hanne", "Sanne"];
+            var html = girls.join('</li><li>');
+            console.log(html);
+            var htmlArray = ['<ul><li>', html, '</li><ul>'];
+            console.log(htmlArray);
+            htmlArray = htmlArray.join('');
+            console.log(htmlArray);
+ 
+            document.getElementById('girls-table').innerHTML = htmlArray;
+ 
+            var mySubmitFunctiongirl = function (event) {
+                event.preventDefault();
+                console.log(event);
+                console.log(event.target);
+                console.log(event.target[0].value);
+                let name = event.target[0].value;
+                girls = [...girls, name];
+                let customArray = girls;
+                customArray = customArray.join('</li><li>');
+                customArray = ['<ul><li>', customArray, '</li><ul>'];
+                customArray = customArray.join('');
+                document.getElementById('girls-table').innerHTML = customArray;
+                updateall();
+            };
+ 
+            
+                
+                let removefirst_checkbox = document.getElementById('firstcheck');
+                let removelast_checkbox = document.getElementById('lastcheck');
+                
+                removefirst_checkbox.addEventListener('change', function () {
+                  if (this.checked) removelast_checkbox.checked = false
+                    })
+
+                removelast_checkbox.addEventListener('change', function () {
+                  if (this.checked) removefirst_checkbox.checked = false
+                    })
+                 
+               function removeboybtn (){
+                   if (removelast_checkbox.checked) {
+                       boys.pop();
+                   } else if (removefirst_checkbox.checked) {
+                       boys.shift();
+                   }
+                   document.getElementById('boys-table').innerHTML = boys;
+                   updateboys()
+                   updateall()
+               }
+               
+                function removegirlbtn (){
+                   if (removelast_checkbox.checked) {
+                       girls.pop();
+                   } else if (removefirst_checkbox.checked) {
+                       girls.shift();
+                   }
+                    document.getElementById('girls-table').innerHTML = girls;
+                    updategirls()
+                    updateall()
+               }
+       
+             var allsorted = function (event) {
+                 
+                  let allso = all.sort();
+            var html = allso.join('</li><li>');
+            console.log(html);
+            var htmlArray = ['<ul><li>', html, '</li><ul>'];
+            console.log(htmlArray);
+            htmlArray = htmlArray.join('');
+            console.log(htmlArray);
+                
+                 document.getElementById('all-table').innerHTML = htmlArray;
+            };
+            
+            var allreversed = function (event) {
+                 
+                 let allre = all.reverse();
+            var html = allre.join('</li><li>');
+            console.log(html);
+            var htmlArray = ['<ul><li>', html, '</li><ul>'];
+            console.log(htmlArray);
+            htmlArray = htmlArray.join('');
+            console.log(htmlArray);
+ 
+            document.getElementById('all-table').innerHTML = htmlArray;
+                 
+                    
+            };
+            
+            
+            console.log("HTML all array");
+            let all = boys.concat(girls);
+            var html = all.join('</li><li>');
+            console.log(html);
+            var htmlArray = ['<ul><li>', html, '</li><ul>'];
+            console.log(htmlArray);
+            htmlArray = htmlArray.join('');
+            console.log(htmlArray);
+ 
+            document.getElementById('all-table').innerHTML = htmlArray;
+            
+            
+            function updateall(){
+              all = [...boys, ...girls]
+
+              let html = all.join('</li><li>');
+              let htmlArray = ['<ul><li>', html, '</li><ul>'];
+              htmlArray = htmlArray.join('');
+
+              document.getElementById('all-table').innerHTML = htmlArray;
+            }
+            function updateboys(){
+              boys = boys
+
+              let html = boys.join('</li><li>');
+              let htmlArray = ['<ul><li>', html, '</li><ul>'];
+              htmlArray = htmlArray.join('');
+
+              document.getElementById('boys-table').innerHTML = htmlArray;
+            }
+            function updategirls(){
+              girls = girls
+
+              let html = girls.join('</li><li>');
+              let htmlArray = ['<ul><li>', html, '</li><ul>'];
+              htmlArray = htmlArray.join('');
+
+              document.getElementById('girls-table').innerHTML = htmlArray;
+            }
+            
+                    </script>
+ 
+                </div>
+                <div class="col-sm-2">
+ 
+                </div>
+            </div>
+        </div>
+
+            </body>
+</html>
