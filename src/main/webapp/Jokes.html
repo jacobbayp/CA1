@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Our Cool Jokes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            table, th, td {
+                border: 1px solid black
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Cool jokes</h1>
+        <form>
+            Joke ID: <input type="number" id="singleJokeNumberInput">
+            <button id="singleJokeNumberInputBtn">Fetch</button>
+            <button id="getAllJokesBtn">Alle jokes</button><br>
+            Joke type: <input type="text" id="allJokesFromTypeInput">
+            <button id="allJokesFromTypeInputBtn">Jokes af samme type</button><br>
+        </form>
+
+        <h2>Enkelt joke</h2>
+        <p id="singleJoke"></p>
+
+        <h2>Alle jokes</h2>
+        <p id="allJokes"></p>
+
+        <h2>Jokes af samme type</h2>
+        <p id="allJokesFromType"></p>
+        
+        
+        <h4><a href="https://test.madebay.dk/ca1/">Gå tilbage til forsiden</a></h4>
+
+        <script>
+            function fetchSingleJoke(id) {
+                let url = 'https://test.madebay.dk/ca1/api/jokes/' + id;
+                fetch(url)
+                        .then(res => res.json())
+                        .then(data => {
+                            let singleJoke = document.getElementById("singleJoke");
+                            singleJoke.innerHTML = renderObjectToHTML(data);
+                        });
+            }
+
+            function fetchAllJokes() {
+                let url = 'https://test.madebay.dk/ca1/api/jokes/all';
+                let allJokes = document.getElementById("allJokes");
+                fetch(url)
+                        .then(res => res.json())
+                        .then(data => {
+                            let newArray = data.map(x => `<tr><td>${x.id}</td><td>${x.theJoke}</td></tr>`);
+                            allJokes.innerHTML =
+                                    `<table>
+                                        <thead><th>Id</th><th>Joke</th></thead>
+                                        ${newArray.join("")}
+                                    </table>`
+                        });
+            }
+
+            function fetchAllJokesFromType(type) {
+                let url = 'https://test.madebay.dk/ca1/api/jokes/type/' + type;
+                let allJokesFromType = document.getElementById("allJokesFromType");
+                fetch(url)
+                        .then(res => res.json())
+                        .then(data => {
+                            let newArray = data.map(x => `<tr><td>${x.id}</td><td>${x.theJoke}</td></tr>`);
+                            allJokesFromType.innerHTML =
+                                    `<table>
+                                        <thead><th>Id</th><th>Joke</th></thead>
+                                        ${newArray.join("")}
+                                    </table>`
+                        });
+            }
+
+            
+
+            function renderObjectToHTML(jokeObj) {
+                result = `Id: ${jokeObj.id}<br>
+                Joke: ${jokeObj.theJoke}<br>
+                Reference: ${jokeObj.reference}<br>
+                Type: ${jokeObj.type}<br>`
+                return result;
+            }
+
+            let singleJokeNumberInputBtn = document.getElementById("singleJokeNumberInputBtn");
+            singleJokeNumberInputBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                let singleJokeNumberInput = document.getElementById("singleJokeNumberInput");
+                fetchSingleJoke(singleJokeNumberInput.value);
+            });
+
+            let getAllJokesBtn = document.getElementById("getAllJokesBtn");
+            getAllJokesBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllJokes();
+            });
+
+            let allJokesFromTypeInputBtn = document.getElementById("allJokesFromTypeInputBtn");
+            allJokesFromTypeInputBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                let allJokesFromTypeInput = document.getElementById("allJokesFromTypeInput");
+                fetchAllJokesFromType(allJokesFromTypeInput.value);
+            })
+
+
+
+        </script>
+    </body>
+</html>
