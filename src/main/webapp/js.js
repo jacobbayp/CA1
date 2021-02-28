@@ -5,8 +5,8 @@
  */
 
 
-   // const URL = "http://localhost:8080/jpareststarter/api/members/all" 
-     const URL = "https://test.madebay.dk/CA1/api/members/all"
+    const URL = "http://localhost:8080/jpareststarter/api/members/all" 
+    // const URL = "https://test.madebay.dk/CA1/api/members/all"
                 document.getElementById("all").onclick = getAll;
                
        
