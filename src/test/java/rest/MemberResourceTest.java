@@ -1,9 +1,8 @@
 package rest;
 
-/*
 
+import dtos.MemberDTO;
 import entities.MemberEntity;
-import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
@@ -16,19 +15,23 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-//Uncomment the line below, to temporarily disable this test
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
+import static rest.MemberResourceTest.startServer;
+import utils.EMF_Creator;
 //@Disabled
 
-public class RenameMeResourceTest {
+public class MemberResourceTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static MemberEntity r1, r2;
+    private static MemberEntity me1, me2, me3;
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
@@ -41,12 +44,11 @@ public class RenameMeResourceTest {
 
     @BeforeAll
     public static void setUpClass() {
-        //This method must be called before you request the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
 
         httpServer = startServer();
-        //Setup RestAssured
+
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
@@ -61,18 +63,22 @@ public class RenameMeResourceTest {
         httpServer.shutdownNow();
     }
 
-    // Setup the DataBase (used by the test-server and this test) in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the EntityClass used below to use YOUR OWN (renamed) Entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        r1 = new MemberEntity("Some txt", "hfgdgdfg", "More text");
-        r2 = new MemberEntity("aaa", "bdfgdgdfgdf", "bbb");
+        me1 = new MemberEntity("Jacob", "cph-jp385", "blå");
+           me2 = new MemberEntity("Jonas", "cph-jj467", "rød");
+              me3 = new MemberEntity("Casper", "cph-ct139", "grøn");
+                           
+
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(r1);
-            em.persist(r2);
+            em.createNamedQuery("MemberEntity.deleteAllRows").executeUpdate();
+                em.persist(me1);
+                em.persist(me2);
+                em.persist(me3);
+               
+
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -80,30 +86,31 @@ public class RenameMeResourceTest {
     }
 
     @Test
-    public void testServerIsUp() {
+   public void testServerIsUp() {
         System.out.println("Testing is server UP");
-        given().when().get("/xxx").then().statusCode(200);
+        given().when().get("/members").then().statusCode(200);
+    }
+   
+ 
+    @Test
+    public void countTest() throws Exception {
+        given()
+                .contentType("application/json")
+                .get("/members/count").then()
+                .assertThat()
+                .body("count", equalTo(3));
     }
 
-    //This test assumes the database contains two rows
-    @Test
+    
+        @Test
     public void testDummyMsg() throws Exception {
         given()
                 .contentType("application/json")
-                .get("/xxx/").then()
+                .get("/members/").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("msg", equalTo("Hello World"));
+                .body("msg", equalTo("Vi styrer for vildt!"));
     }
-
-    @Test
-    public void testCount() throws Exception {
-        given()
-                .contentType("application/json")
-                .get("/xxx/count").then()
-                .assertThat()
-                .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("count", equalTo(2));
-    }
+    
+    
 }
-*/

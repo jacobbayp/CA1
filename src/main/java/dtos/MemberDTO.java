@@ -14,12 +14,13 @@ import java.util.List;
  * @author tha
  */
 public class MemberDTO {
-    private long id;
+    private int id;
     private String name;
     private String studentID;
     private String favouriteColor;
 
-    public MemberDTO(String name, String studentID, String favouriteColor) {
+    public MemberDTO(int id, String name, String studentID, String favouriteColor) {
+        this.id = id;
         this.name = name;
         this.studentID = studentID;
         this.favouriteColor = favouriteColor;
@@ -33,9 +34,18 @@ public class MemberDTO {
 
 
     public MemberDTO(MemberEntity rm) {
+        this.id = rm.getId();
         this.studentID = rm.getStudentID();
         this.name = rm.getName();
         this.favouriteColor = rm.getFavouriteColor();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
   

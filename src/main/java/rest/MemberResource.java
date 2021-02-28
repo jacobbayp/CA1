@@ -25,13 +25,13 @@ public class MemberResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
-        return "{\"msg\":\"Hello World\"}";
+        return "{\"msg\":\"Vi styrer for vildt!\"}";
     }
     @Path("count")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getMemberCount() {
-        long count = FACADE.getRenameMeCount();
+        long count = FACADE.getRowCount();
         //System.out.println("--------------->"+count);
         return "{\"count\":"+count+"}";  //Done manually so no need for a DTO
     }
@@ -43,4 +43,6 @@ public class MemberResource {
         List<MemberDTO> members = FACADE.getAllMembers();
         return GSON.toJson(members);
       
-    }}
+    }
+
+}

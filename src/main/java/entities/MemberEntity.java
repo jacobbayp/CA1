@@ -9,13 +9,13 @@ import javax.persistence.NamedQuery;
 
 
 @Entity
-@NamedQuery(name = "Member.deleteAllRows", query = "DELETE from MemberEntity")
+@NamedQuery(name = "MemberEntity.deleteAllRows", query = "DELETE from MemberEntity")
 public class MemberEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     public MemberEntity() {
     }  
@@ -33,11 +33,11 @@ public class MemberEntity implements Serializable {
     }
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

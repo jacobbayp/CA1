@@ -56,10 +56,10 @@ public class MemberFacade {
     }
     
     //TODO Remove/Change this before use
-    public long getRenameMeCount(){
+    public long getRowCount(){
         EntityManager em = emf.createEntityManager();
         try{
-            long renameMeCount = (long)em.createQuery("SELECT COUNT(r) FROM MembersEntity r").getSingleResult();
+            long renameMeCount = (long)em.createQuery("SELECT COUNT(r) FROM MemberEntity r").getSingleResult();
             return renameMeCount;
         }finally{  
             em.close();
